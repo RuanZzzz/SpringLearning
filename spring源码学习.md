@@ -40,15 +40,13 @@ spring源码学习
 
 包括：Beans、Core、Context、Expression
 
-![](https://github.com/RuanZzzz/SpringLearning/blob/master/spring%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%B4%A0%E6%9D%90/%E9%9C%80%E8%A6%81%E7%94%A8%E5%88%B0%E7%9A%84jar%E5%8C%85.png?raw=true)
+![](E:\ruanshaoxiang\java\SpringLearning\spring源码学习素材\需要用到的jar包.png)
 
 ①、file—>project structure
 
 ②、接下来如下图所示
 
-![](https://github.com/RuanZzzz/SpringLearning/blob/master/spring%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%B4%A0%E6%9D%90/%E5%AF%BC%E5%85%A5jar%E5%8C%85.png?raw=true)
-
-
+![](E:\ruanshaoxiang\java\SpringLearning\spring源码学习素材\导入jar包.png)
 
 3、创建普通类，在这个类中创建普通方法
 
@@ -66,7 +64,7 @@ public class User {
 
 （1）spring配置文件使用xml格式
 
-![](https://github.com/RuanZzzz/SpringLearning/blob/master/spring%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%B4%A0%E6%9D%90/%E5%88%9B%E5%BB%BAxml%E6%96%87%E4%BB%B6.png?raw=true)
+![](E:\ruanshaoxiang\java\SpringLearning\spring源码学习素材\创建xml文件.png)
 
 标签中的内容：
 
@@ -120,7 +118,35 @@ public void testAdd() {
 
 
 
-目的：耦合度降低到最低限度
+原始模式、工厂模式
+
+![](E:\ruanshaoxiang\java\SpringLearning\spring源码学习素材\IOC底层（原始方式、工厂模式）.png)
+
+
+
+**<font color=red>IOC过程</font>**：
+
+第一步 xml配置文件，配置创建的对象
+
+```xml
+<bean id="dao" class="com.richard.UserDao"></bean>
+```
+
+第二步 有service类和dao类，创建工厂类
+
+```java
+class UserFactory {
+    public static UserDao getDao() {
+        // 1、xml解析
+        String classValue = class属性值 
+        // 2、通过反射创建对象 
+        Class clazz = Class.forName(classValue);
+        return (UserDao)clazz.newInstance();
+    }
+}
+```
+
+目的：进一步降低耦合度
 
 
 
