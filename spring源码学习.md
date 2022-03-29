@@ -20,7 +20,7 @@ spring源码学习
 
 2、框架版本，选择GA
 
-![](https://raw.githubusercontent.com/RuanZzzz/SpringLearning/master/spring%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%B4%A0%E6%9D%90/spring%E6%A1%86%E6%9E%B6%E7%89%88%E6%9C%AC%E9%80%89%E6%8B%A9.png)
+![](E:\ruanshaoxiang\java\SpringLearning\spring源码学习素材\spring框架版本选择.png)
 
 3、下载地址：https://repo.spring.io/artifactory/release/org/springframework/spring/
 
@@ -151,6 +151,32 @@ class UserFactory {
 
 
 ## IOC接口（BeanFactory）
+
+1、IOC思想基于IOC容器完成，IOC容器底层就是对象工厂
+
+
+
+2、Spring提供IOC容器实现的两种方式：（两个接口）
+
+（1）BeanFactory：IOC容器基本实现，是Spring内部的使用接口，不提供外部使用
+
+①、加载配置文件时不会创建对象，在获取对象（使用）才会去创建对象
+
+
+
+（2）ApplicationContext：BeanFactory接口的子接口，提供了更多更强大的功能，一般供外部使用
+
+①、加载配置文件时就会把配置文件中的对象进行创建
+
+
+
+3、ApplicationContext接口中的实现类
+
+![](E:\ruanshaoxiang\java\SpringLearning\spring源码学习素材\两个比较重要的实现类.png)
+
+`classPathXmlApplicationContext`：src下的类路径
+
+`FileSystemXmlApplicationContext`：绝对路径（如：某个磁盘下的文件）
 
 
 
