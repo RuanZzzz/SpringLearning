@@ -4,6 +4,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- 配置User对象创建 -->
-    <bean id="user" class="com.richard.spring5.User"></bean>
+<!--    <bean id="user" class="com.richard.spring5.User"></bean>-->
+
+    <!-- set方法注入属性 -->
+    <bean id="book" class="com.richard.spring5.Book">
+        <!-- 使用property完成属性注入
+             name：类中属性的名称
+             value：向属性注入的值
+        -->
+        <property name="bookName" value="SpringBoot"></property>
+        <property name="author" value="RuanZzzz"></property>
+    </bean>
 
 </beans>

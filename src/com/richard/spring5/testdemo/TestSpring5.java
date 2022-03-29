@@ -1,5 +1,6 @@
 package com.richard.spring5.testdemo;
 
+import com.richard.spring5.Book;
 import com.richard.spring5.User;
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
@@ -19,6 +20,14 @@ public class TestSpring5 {
 
         System.out.println(user);
         user.add();
+    }
+
+    @Test
+    public void testBook1() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("bean1.xml");
+        Book book = context.getBean("book",Book.class);
+        System.out.println(book);
+        book.testDemo();
     }
 
 }
