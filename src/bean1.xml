@@ -8,14 +8,17 @@
 <!--    <bean id="user" class="com.richard.spring5.User"></bean>-->
 
     <!-- set方法注入属性 -->
-<!--    <bean id="book" class="com.richard.spring5.Book">-->
-<!--        &lt;!&ndash; 使用property完成属性注入-->
-<!--             name：类中属性的名称-->
-<!--             value：向属性注入的值-->
-<!--        &ndash;&gt;-->
-<!--        <property name="bookName" value="SpringBoot"></property>-->
-<!--        <property name="author" value="RuanZzzz"></property>-->
-<!--    </bean>-->
+    <bean id="book" class="com.richard.spring5.Book">
+        <property name="bookName" value="SpringBoot"></property>
+        <property name="author" value="RuanZzzz"></property>
+        <!-- 属性值中包含特殊符号，如：<>
+            1、把<>进行转义 &lt; &gt;
+            2、把带特殊符号内容写到CDATA
+        -->
+        <property name="address">
+            <value><![CDATA[<<四川成都>>]]></value>
+        </property>
+    </bean>
 
     <!-- 有参构造注入属性 -->
 <!--    <bean id="orders" class="com.richard.spring5.Orders">-->
@@ -24,7 +27,7 @@
 <!--    </bean>-->
 
         <!-- set方法注入属性 -->
-        <bean id="book" class="com.richard.spring5.Book" p:bookName="Spring技术内幕" p:author="机械工业出版社">
-        </bean>
+<!--        <bean id="book" class="com.richard.spring5.Book" p:bookName="Spring技术内幕" p:author="机械工业出版社">-->
+<!--        </bean>-->
 
 </beans>

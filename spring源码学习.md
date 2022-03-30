@@ -347,6 +347,65 @@ public void testOrders() {
 
 
 
+#### XML注入其他类型属性
+
+1、字面量（即为属性赋值，如：`private String bookName = "Spring技术内幕";`）
+
+（1）设置属性值为null值
+
+```xml
+<bean id="book" class="com.richard.spring5.Book">
+    <property name="bookName" value="SpringBoot"></property>
+    <property name="author" value="RuanZzzz"></property>
+    <!-- 设置null值 -->
+    <property name="address" >
+        <null />
+    </property>
+</bean>
+```
+
+测试：
+
+```java
+@Test
+public void testBook1() {
+    ApplicationContext context = new ClassPathXmlApplicationContext("bean1.xml");
+    Book book = context.getBean("book",Book.class);
+    System.out.println(book);
+    book.testDemo();	// 打印结果——> SpringBoot：RuanZzzz：null
+}
+```
+
+
+
+（2）设置属性值包含特殊符号
+
+```xml
+<bean id="book" class="com.richard.spring5.Book">
+    <property name="bookName" value="SpringBoot"></property>
+    <property name="author" value="RuanZzzz"></property>
+    <!-- 属性值中包含特殊符号，如：<>
+            1、把<>进行转义 &lt; &gt;
+            2、把带特殊符号内容写到CDATA
+        -->
+    <property name="address">
+        <value><![CDATA[<<四川成都>>]]></value>
+    </property>
+</bean>
+```
+
+测试：
+
+```java
+@Test
+public void testBook1() {
+    ApplicationContext context = new ClassPathXmlApplicationContext("bean1.xml");
+    Book book = context.getBean("book",Book.class);
+    System.out.println(book);
+    book.testDemo();	// 打印结果——> SpringBoot：RuanZzzz：<<四川成都>>
+}
+```
+
 
 
 
