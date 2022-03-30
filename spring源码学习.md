@@ -227,7 +227,7 @@ class UserFactory {
 
 
 
-3、第一种注入方式：使用set方法进行注入
+2.1.、第一种注入方式：使用set方法进行注入
 
 （1）创建类，定义属性和对应的set方法
 
@@ -280,18 +280,46 @@ public void testBook1() {
 
 
 
-4、第二种注入方式：有参构造注入
+2.2.、第二种注入方式：有参构造注入
+
+（1）创建类，定义属性，创建属性对应有参数构造
 
 ```java
-public class Book {
-    private String bookName;
-    // 有参构造注入
-    public Book(String bookName) {
-        this.bookName = bookName;
+public class Orders {
+    // 属性
+    private String orderName;
+    private String address;
+    // 有参构造
+    public Orders(String orderName, String address) {
+        this.orderName = orderName;
+        this.address = address;
     }
-    public static void main(String[] args) {
-        Book book = new Book("SpringBoot");
+    public void orderTest() {
+        System.out.println(orderName + "：" + address);
     }
+}
+```
+
+（2）在spring配置文件中进行配置（bean1.xml）
+
+```xml
+<bean id="orders" class="com.richard.spring5.Orders">
+    <constructor-arg name="orderName" value="Yeezy 350"></constructor-arg>
+    <constructor-arg name="address" value="四川成都"></constructor-arg>
+</bean>
+```
+
+（3）测试
+
+```java
+@Test
+public void testOrders() {
+    // 1、加载spring的配置文件
+    ApplicationContext context = new ClassPathXmlApplicationContext("bean1.xml");
+    // 2、获取配置创建的对象
+    Orders orders = context.getBean("orders",Orders.class);
+    System.out.println(orders);
+    orders.orderTest();		// 打印结果——> Yeezy 350：四川成都
 }
 ```
 

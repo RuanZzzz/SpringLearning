@@ -16,4 +16,10 @@
         <property name="author" value="RuanZzzz"></property>
     </bean>
 
+    <!-- 有参构造注入属性 -->
+    <bean id="orders" class="com.richard.spring5.Orders">
+        <constructor-arg name="orderName" value="Yeezy 350"></constructor-arg>
+        <constructor-arg name="address" value="四川成都"></constructor-arg>
+    </bean>
+
 </beans>

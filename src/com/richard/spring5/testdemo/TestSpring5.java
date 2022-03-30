@@ -1,6 +1,7 @@
 package com.richard.spring5.testdemo;
 
 import com.richard.spring5.Book;
+import com.richard.spring5.Orders;
 import com.richard.spring5.User;
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
@@ -28,6 +29,14 @@ public class TestSpring5 {
         Book book = context.getBean("book",Book.class);
         System.out.println(book);
         book.testDemo();
+    }
+
+    @Test
+    public void testOrders() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("bean1.xml");
+        Orders orders = context.getBean("orders",Orders.class);
+        System.out.println(orders);
+        orders.orderTest();
     }
 
 }
