@@ -227,7 +227,7 @@ class UserFactory {
 
 
 
-2.1.、第一种注入方式：使用set方法进行注入
+2.1. 第一种注入方式：使用set方法进行注入
 
 （1）创建类，定义属性和对应的set方法
 
@@ -280,7 +280,7 @@ public void testBook1() {
 
 
 
-2.2.、第二种注入方式：有参构造注入
+2.2. 第二种注入方式：有参构造注入
 
 （1）创建类，定义属性，创建属性对应有参数构造
 
@@ -322,6 +322,30 @@ public void testOrders() {
     orders.orderTest();		// 打印结果——> Yeezy 350：四川成都
 }
 ```
+
+
+
+2.3. P名称空间注入（仅了解）
+
+（1）使用P名称空间注入，可以简化基于xml配置
+
+（2）添加p名称空间在配置文件中
+
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"  <!-- 这里 -->
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+```
+
+（3）进行属性注入，在bean标签里
+
+```xml
+<!-- set方法注入属性 -->
+<bean id="book" class="com.richard.spring5.Book" p:bookName="Spring技术内幕" p:author="机械工业出版社"></bean>
+```
+
+
 
 
 
