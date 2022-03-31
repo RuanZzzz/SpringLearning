@@ -459,9 +459,120 @@ public void testBean() {
 
 
 
+3、注入属性—内部bean
+
+（1）一对多关系
+
+（2）在实体类之间表示一对多关系
+
+```java
+// 部门类
+public class Dept {
+    // 部门名称
+    private String dname;
+    public void setDname(String dname) {
+        this.dname = dname;
+    }
+    @Override
+    public String toString() {
+        return "Dept{" +
+                "dname='" + dname + '\'' +
+                '}';
+    }
+}
+```
+
+```java
+// 员工类
+public class Emp {
+    // 员工名称
+    private String ename;
+    // 性别
+    private String gender;
+    // 员工属于某个部门，使用对象形式表示
+    private Dept dept;
+    
+    public Dept getDept() {
+        return dept;
+    }
+    public void setDept(Dept dept) {
+        this.dept = dept;
+    }
+    public void setEname(String ename) {
+        this.ename = ename;
+    }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    public void add() {
+        System.out.println(ename + "：" + gender + "：" + dept);
+    }
+}
+```
+
+（3）在spring配置文件中进行配置（bean3）
+
+```xml
+<!-- 内部bean -->
+<bean id="emp" class="com.richard.spring5.bean.Emp">
+    <!-- 先设置两个普通属性 -->
+    <property name="ename" value="richard"></property>
+    <property name="gender" value="男"></property>
+    <!-- 设置对象类属性 -->
+    <property name="dept">
+        <bean id="dept" class="com.richard.spring5.bean.Dept">
+            <property name="dname" value="艾欧尼亚"></property>
+        </bean>
+    </property>
+</bean>
+```
+
+（4）测试
+
+```java
+@Test
+public void testBean2() {
+    ApplicationContext context = new ClassPathXmlApplicationContext("bean3.xml");
+    Emp emp = context.getBean("emp", Emp.class);
+    emp.add();	// 打印结果——> richard：男：Dept{dname='艾欧尼亚'}
+}
+```
 
 
-3、注入属性—内部bean和级联赋值
+
+4、注入属性—级联赋值
+
+（1）第一种写法
+
+```xml
+<!-- 级联赋值 -->
+<bean id="emp" class="com.richard.spring5.bean.Emp">
+    <!-- 先设置两个普通属性 -->
+    <property name="ename" value="richard"></property>
+    <property name="gender" value="男"></property>
+    <!-- 级联赋值 -->
+    <property name="dept" ref="dept"></property>
+</bean>
+<bean id="dept" class="com.richard.spring5.bean.Dept">
+    <property name="dname" value="诺克萨斯"></property>
+</bean>
+```
+
+（2）第二种写法
+
+```xml
+ <!-- 级联赋值 -->
+<bean id="emp" class="com.richard.spring5.bean.Emp">
+    <!-- 先设置两个普通属性 -->
+    <property name="ename" value="richard"></property>
+    <property name="gender" value="男"></property>
+    <!-- 级联赋值 -->
+    <property name="dept" ref="dept"></property>
+    <property name="dept.dname" value="黑色玫瑰"></property>
+</bean>
+```
+
+
 
 
 
