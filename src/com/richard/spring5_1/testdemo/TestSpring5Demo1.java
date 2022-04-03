@@ -1,7 +1,9 @@
 package com.richard.spring5_1.testdemo;
 
 import com.richard.spring5_1.collectiontype.Book;
+import com.richard.spring5_1.collectiontype.Course;
 import com.richard.spring5_1.collectiontype.Stu;
+import com.richard.spring5_1.factorybean.MyBean;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -20,6 +22,13 @@ public class TestSpring5Demo1 {
         ApplicationContext context = new ClassPathXmlApplicationContext("bean6.xml");
         Book book = context.getBean("book",Book.class);
         book.test();
+    }
+
+    @Test
+    public void test3() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("bean7.xml");
+        Course course = context.getBean("myBean", Course.class);
+        System.out.println(course);
     }
 
 }
