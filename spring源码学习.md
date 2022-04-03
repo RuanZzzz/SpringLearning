@@ -347,6 +347,96 @@ public void testOrders() {
 
 
 
+#### XML注入集合属性
+
+1、注入数组类型属性
+
+2、注入List集合类型属性
+
+3、注入Map集合类型属性
+
+（1）创建类，并定义数组类型：list、map、set类型属性
+
+```java
+public class Stu {
+    // 1 数组类型属性
+    private String[] courses;
+    // 2 list集合类型属性
+    private List<String> list;
+    // 3 map集合类型属性
+    private Map<String,String> maps;
+    // 4 set集合类型属性
+    private Set<String> sets;
+    
+    public void setCourses(String[] courses) {
+        this.courses = courses;
+    }
+    public void setList(List<String> list) {
+        this.list = list;
+    }
+    public void setMaps(Map<String, String> maps) {
+        this.maps = maps;
+    }
+    public void setSets(Set<String> sets) {
+        this.sets = sets;
+    }
+}
+```
+
+（2）在spring配置文件进行配置（bean5）
+
+```xml
+<bean id="stu" class="com.richard.spring5_1.collectiontype.Stu">
+    <!-- 数组类型属性注入 -->
+    <property name="courses">
+        <array>
+            <value>C语言</value>
+            <value>Laravel框架</value>
+            <value>Spring技术内幕</value>
+            <value>数据库</value>
+        </array>
+    </property>
+    <!-- list类型属性注入 -->
+    <property name="list">
+        <list>
+            <value>软烧香</value>
+            <value>庒易得</value>
+            <value>陈另类</value>
+        </list>
+    </property>
+    <!-- map类型属性注入 -->
+    <property name="maps">
+        <map>
+            <entry key="C" value="c"></entry>
+            <entry key="Laravel" value="laravel"></entry>
+            <entry key="Spring" value="spring"></entry>
+        </map>
+    </property>
+    <!-- set类型属性注入 -->
+    <property name="sets">
+        <set>
+            <value>Mysql</value>
+            <value>Redis</value>
+        </set>
+    </property>
+</bean>
+```
+
+（3）测试
+
+```java
+@Test
+public void testCollection() {
+    ApplicationContext context = new ClassPathXmlApplicationContext("bean5.xml");
+    Stu stu = context.getBean("stu",Stu.class);
+    stu.test();
+}
+```
+
+
+
+
+
 #### XML注入其他类型属性
 
 1、字面量（即为属性赋值，如：`private String bookName = "Spring技术内幕";`）
