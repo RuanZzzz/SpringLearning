@@ -256,6 +256,63 @@ public class MyBean implements FactoryBean<Course> {
 
 
 
+### Bean 作用域
+
+1、在Spring里面，设置创建bean实例是单实例还是多实例
+
+2、在Spring里面，默认情况下，bean是单实例对象
+
+单例：
+
+```java
+public void testCollection2() {
+    ApplicationContext context = new ClassPathXmlApplicationContext("bean6.xml");
+    Book book1 = context.getBean("book",Book.class);
+    Book book2 = context.getBean("book",Book.class);
+    //book.test();
+    System.out.println(book1);
+    System.out.println(book2);
+}
+```
+
+地址输出相同
+
+> com.richard.spring5_1.collectiontype.Book@1a18f1b
+>
+> com.richard.spring5_1.collectiontype.Book@1a18f1b
+
+
+
+3、如何设置单实例还是多实例
+
+（1）在Spring配置文件bean标签里面有属性（scope）用于设置单实例还是多实例
+
+（2）scope属性值
+
+第一个值：默认值 `singleton`，表示单实例对象
+
+第二个值：`prototype`，表示多实例对象（bean6）
+
+```xml
+<bean id="book" class="com.richard.spring5_1.collectiontype.Book" scope="prototype">
+    <property name="list" ref="bookList"></property>
+</bean>
+```
+
+这时候输出的地址就不相同了
+
+（3）singleton和prototype区别
+
+①、singleton是单例，prototype是多例
+
+②、设置scope值是singleton时候，加载spring配置文件时候就会创建单实例对象
+
+​        设置scope值是prototype时候，不是在加载spring配置文件时候创建对象，而是在调用 `getBean` 获取创建对象的时候创建多实例对象
+
+
+
+
+
 ### 基于XML配置文件方式
 
 1、**基于xml方式创建对象**
