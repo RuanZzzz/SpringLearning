@@ -1,5 +1,6 @@
 package com.richard.spring5_1.testdemo;
 
+import com.richard.spring5_1.bean.Orders;
 import com.richard.spring5_1.collectiontype.Book;
 import com.richard.spring5_1.collectiontype.Course;
 import com.richard.spring5_1.collectiontype.Stu;
@@ -32,6 +33,18 @@ public class TestSpring5Demo1 {
         ApplicationContext context = new ClassPathXmlApplicationContext("bean7.xml");
         Course course = context.getBean("myBean", Course.class);
         System.out.println(course);
+    }
+
+    @Test
+    public void testBean() {
+        //ApplicationContext context = new ClassPathXmlApplicationContext("bean8.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("bean8.xml");
+        Orders orders = context.getBean("orders",Orders.class);
+        System.out.println("第四步 获取创建bean实例对象");
+        System.out.println(orders);
+
+        // 手动让bean实例销毁
+        context.close();
     }
 
 }

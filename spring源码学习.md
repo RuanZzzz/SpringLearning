@@ -311,6 +311,147 @@ public void testCollection2() {
 
 
 
+### Bean 生命周期（重要）
+
+1、生命周期
+
+（1）从对象的创建到对象销毁的过程
+
+
+
+2、bean生命周期
+
+（1）通过构造器创建bean实例（无参数构造器）
+
+（2）为bean的属性设置值和对其他bean的引用（调用其对应的set方法）
+
+（3）调用bean的初始化的方法（需要进行配置）
+
+（4）bean这时就可以使用了（对象获取到了）
+
+（5）当容器关闭时候，调用bean的销毁的方法（需要进行配置销毁的方法）
+
+
+
+#### **<font color=red>bean生命周期的实现</font>**
+
+类：
+
+```java
+public class Orders {
+    // 无参构造器
+    public Orders() {
+        System.out.println("第一步 执行无参数构造器创建bean实例");
+    }
+    private String oname;
+    public void setOname(String oname) {
+        this.oname = oname;
+        System.out.println("第二步 调用set方法设置属性值");
+    }
+    // 创建执行初始化方法
+    public void initMethod() {
+        System.out.println("第三步 执行初始化方法");
+    }
+    // 创建执行销毁的方法
+    public void destroyMethod() {
+        System.out.println("第五步 执行销毁的方法");
+    }
+}
+```
+
+配置文件（bean8）：
+
+```xml
+<bean id="orders" class="com.richard.spring5_1.bean.Orders" init-method="initMethod" destroy-method="destroyMethod">
+    <property name="oname" value="yeezy350 白斑马"></property>
+</bean>
+```
+
+测试方法：
+
+```java
+@Test
+public void testBean() {
+    //ApplicationContext context = new ClassPathXmlApplicationContext("bean8.xml");
+    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("bean8.xml");
+    Orders orders = context.getBean("orders",Orders.class);
+    System.out.println("第四步 获取创建bean实例对象");
+    System.out.println(orders);
+
+    // 手动让bean实例销毁
+    context.close();
+}
+```
+
+执行结果：
+
+> 第一步 执行无参数构造器创建bean实例
+> 第二步 调用set方法设置属性值
+> 第三步 执行初始化方法
+> 第四步 获取创建bean实例对象
+> com.richard.spring5_1.bean.Orders@e6aa2
+> 第五步 执行销毁的方法	
+
+
+
+#### **<font color=red>bean的后置处理器</font>**
+
+1、（在生命周期的基础上，还有另外两步）——七步
+
+（1）通过构造器创建bean示例（无参数构造器）
+
+（2）为bean的属性设置值和对其他bean的引用（调用其对应的set方法）
+
+（3）把bean实例传递给bean后置处理的方法 `postProcessBeforeInitialization`
+
+（4）**<font color=red>调用bean的初始化的方法（需要进行配置）</font>**——**原来的第三步**
+
+（5）把bean实例传递给bean后置处理的方法 `postProcessAfterInitialization`
+
+（6）bean这时就可以使用了（对象获取到了）
+
+（7）当容器关闭时候，调用bean的销毁的方法（需要进行配置销毁的方法）
+
+
+
+2、演示添加后置处理器效果
+
+（1）创建类，实现接口 BeanPostProcessor，创建后置处理器
+
+```java
+public class MyBeanPost implements BeanPostProcessor {
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        System.out.println("在初始化之前执行的方法");
+        return bean;
+    }
+
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        System.out.println("在初始化之后执行的方法");
+        return bean;
+    }
+}
+```
+
+（2）同时需要在配置文件进行配置（也在bean8）
+
+```xml
+<!-- 配置后置处理器 -->
+<bean id="myBeanPost" class="com.richard.spring5_1.bean.MyBeanPost"></bean>
+```
+
+（3）执行上面的测试方法，结果
+
+> 第一步 执行无参数构造器创建bean实例
+> 第二步 调用set方法设置属性值
+> 在初始化之前执行的方法
+> 第三步 执行初始化方法
+> 在初始化之后执行的方法
+> 第四步 获取创建bean实例对象
+> com.richard.spring5_1.bean.Orders@1b64261
+> 第五步 执行销毁的方法	
+
 
 
 ### 基于XML配置文件方式
