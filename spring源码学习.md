@@ -347,7 +347,7 @@ public void testOrders() {
 
 
 
-#### XML注入集合属性
+#### XML注入集合属性（重要）
 
 1、注入数组类型属性
 
@@ -431,6 +431,65 @@ public void testCollection() {
     Stu stu = context.getBean("stu",Stu.class);
     stu.test();
 }
+```
+
+4、在集合里面设置对象类型值
+
+（1）创建多个对象（bean5）
+
+```XML
+<!-- 创建多个course对象 -->
+<bean id="course1" class="com.richard.spring5_1.collectiontype.Course">
+    <property name="cname" value="Spring5框架"></property>
+</bean>
+<bean id="course2" class="com.richard.spring5_1.collectiontype.Course">
+    <property name="cname" value="MyBatis框架"></property>
+</bean>
+```
+
+（2）进入注入
+
+```xml
+<!-- 注入list集合类型，值是对象 -->
+<property name="courseList">
+    <list>
+        <ref bean="course1"></ref>
+        <ref bean="course2"></ref>
+    </list>
+</property>
+```
+
+
+
+5、把集合注入部分提取出来
+
+（1）在spring配置文件中引入名称空间 util（bean6）
+
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+</beans>
+```
+
+（2）使用util标签完成list集合注入提取（bean6）
+
+```xml
+<!-- 1、提取list集合类型属性注入 -->
+<util:list id="bookList">
+    <value>Spring技术内幕</value>
+    <value>laravel框架</value>
+    <value>Redis集群</value>
+</util:list>
+
+<!-- 2、提取list集合类型属性注入使用 -->
+<bean id="book" class="com.richard.spring5_1.collectiontype.Book">
+    <property name="list" ref="bookList"></property>
+</bean>
 ```
 
 
