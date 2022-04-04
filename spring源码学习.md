@@ -977,6 +977,48 @@ public void testBean2() {
 
 
 
+#### 自动装配
+
+1、概念
+
+（1）根据指定装配规则（属性名称或属性类型），Spring自动将匹配的属性值进行注入
+
+
+
+2、自动装配的过程
+
+（1）根据属性名称自动注入（bean9）
+
+```xml
+<!--实现自动装配
+    bean标签属性autowire：配置自动装配
+    autowire属性常用的两个值：
+      ①、byName：根据属性名称注入，待注入bean的id值要和类属性名称一样
+      ②、byType：根据属性类型注入
+-->
+<bean id="emp" class="com.richard.spring5_1.autowire.Emp" autowire="byName"></bean>
+<bean id="dept" class="com.richard.spring5_1.autowire.Dept"></bean>
+```
+
+在 `emp` 类中为
+
+```java
+public class Emp {
+    private Dept dept;
+    public void setDept(Dept dept) {
+        this.dept = dept;
+    }
+}
+```
+
+（2）根据属性类型自动注入（bean9）
+
+```xml
+<bean id="emp" class="com.richard.spring5_1.autowire.Emp" autowire="byType"></bean>
+```
+
+
+
 
 
 ### 基于注解方式
