@@ -200,6 +200,75 @@ class UserFactory {
 
 
 
+### 外部属性文件
+
+1、直接配置数据库信息
+
+（1）配置德鲁伊连接池
+
+（2）引入德鲁伊连接池依赖 jar 包— `druid-1.1.9.jar`
+
+（3）配置信息（bean10）
+
+```xml
+<!-- 直接配置连接池 -->
+<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+    <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+    <property name="url" value="jdbc:mysql://localhost:3306/wiki"></property>
+    <property name="username" value="ruanshaoxiang"></property>
+    <property name="password" value="123456"></property>
+</bean>
+```
+
+
+
+2、引入外部属性文件配置数据库连接池
+
+（1）创建外部属性文件，格式为properties文件，存储数据库信息
+
+```properties
+prop.driverClass=com.mysql.jdbc.Driver
+prop.url=jdbc:mysql://localhost:3306/wiki
+prop.userName=ruanshaoxiang
+prop.password=123456
+```
+
+（2）将外部properties属性文件引入到spring配置文件中
+
+*引入context名称空间（bean10）
+
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+</beans>
+```
+
+主要内容为：
+
+> xmlns:context="http://www.springframework.org/schema/context" 
+>
+> http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+
+在spring配置文件使用标签引入外部属性文件（bean10）
+
+```xml
+<!-- 引入外部属性文件 -->
+<context:property-placeholder location="classpath:jdbc.properties" />
+
+<!-- 直接配置连接池 -->
+<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+    <property name="driverClassName" value="${prop.driverClass}"></property>
+    <property name="url" value="${prop.url}"></property>
+    <property name="username" value="${prop.userName}"></property>
+    <property name="password" value="${prop.password}"></property>
+</bean>
+```
+
+
+
 
 
 ### FactoryBean
