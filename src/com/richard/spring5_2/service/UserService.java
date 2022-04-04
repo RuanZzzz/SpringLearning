@@ -1,5 +1,8 @@
 package com.richard.spring5_2.service;
 
+import com.richard.spring5_2.dao.UserDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +11,12 @@ import org.springframework.stereotype.Service;
 //@Component(value = "userService") // 等于 <bean id="" class="" />
 @Service
 public class UserService {
+    @Autowired
+    @Qualifier(value = "userDaoImpl")
+    private UserDao userDao;
+
     public void add() {
         System.out.println("service add test...");
+        userDao.add();
     }
 }

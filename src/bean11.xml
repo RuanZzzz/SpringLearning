@@ -15,16 +15,16 @@
         context:include-filter 设置扫描指定的内容
         以下的内容为：只扫描这个包下面带注解 @Controller 的类
     -->
-    <context:component-scan base-package="com.richard.spring5_2" use-default-filters="false">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
+<!--    <context:component-scan base-package="com.richard.spring5_2" use-default-filters="false">-->
+<!--        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+<!--    </context:component-scan>-->
 
     <!-- 示例2
         context:exclude-filter：设置哪些类不要扫描
         以下的内容为：扫描包下面除了注解@Controller以外的类
      -->
-    <context:component-scan base-package="com.richard.spring5_2">
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
+<!--    <context:component-scan base-package="com.richard.spring5_2">-->
+<!--        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+<!--    </context:component-scan>-->
 
 </beans>

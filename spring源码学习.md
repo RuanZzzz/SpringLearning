@@ -1188,6 +1188,65 @@ public void testService() {
 
 
 
+5、基于注解方式实现属性注入
+
+（1）@AutoWired：根据属性类型进行自动装配
+
+第一步 把service和dao对象进行创建，在service和dao类添加创建对象注解
+
+```java
+public interface UserDao {
+    public void add();
+}
+```
+
+```java
+@Repository
+public class UserDaoImpl implements UserDao{
+    @Override
+    public void add() {
+        System.out.println("dao add");
+    }
+}
+```
+
+第二步 在service注入dao对象，在service类添加dao类型属性，在属性上面使用注解
+
+```java
+@Service
+public class UserService {
+    @Autowired
+    private UserDao userDao;
+
+    public void add() {
+        System.out.println("service add test...");
+        userDao.add();
+    }
+}
+```
+
+
+
+（2）@Qualifier：根据属性名称进行注入
+
+该注解@Qualifier的使用，**<font color=red>需要和上面@AutoWired一起使用</font>**，指定使用的类（存在一个接口多个实现类）
+
+```java
+@Autowired
+@Qualifier(value = "userDaoImpl")
+private UserDao userDao;
+```
+
+
+
+（3）@Resource：可以根据类型注入，也可以根据名称注入
+
+
+
+（4）@Value：注入普通类型属性
+
+
+
 # 杂记
 
 1、 `Context` ：上下文
