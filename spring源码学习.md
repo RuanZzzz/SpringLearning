@@ -1241,9 +1241,22 @@ private UserDao userDao;
 
 （3）@Resource：可以根据类型注入，也可以根据名称注入
 
+```java
+//@Resource                         //根据类型注入
+@Resource(name = "userDaoImpl")     //根据名称注入
+private UserDao userDao;
+```
+
 
 
 （4）@Value：注入普通类型属性
+
+```java
+@Value(value = "richard")
+private String name;
+```
+
+
 
 
 
