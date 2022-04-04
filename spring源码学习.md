@@ -1092,6 +1092,75 @@ public class Emp {
 
 ### 基于注解方式
 
+1、概念
+
+（1）注解是代码特殊标记，格式：@注解名称（属性名称=属性值，属性名称=属性...）
+
+（2）使用注解：注解可以作用在类上面、方法上面、属性上面
+
+（3）使用注解的目的：为了简化xml配置
+
+
+
+2、Spring针对Bean管理中创建对象提供注解
+
+（1）@Component
+
+（2）@Service
+
+（3）@Controller
+
+（4）@Repository
+
+以上四个注解功能都是一样的，用来创建bean对象
+
+
+
+3、基于注解方式实现对象创建
+
+第一步 引入依赖 `spring-aop-5.2.6.RELEASE.jar`
+
+第二步 开启组件扫描（bean11）
+
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 开启组件扫描
+         扫描多个包:① 可以使用逗号隔开
+                  ② 扫描包的上层目录（都在同一个包的情况下）
+     -->
+    <context:component-scan base-package="com.richard.spring5_2"></context:component-scan>
+</beans>
+```
+
+第三步 创建类，并在类上面添加创建对象的注解
+
+```java
+// 注解中的value属性值可以省略不写
+// 默认值是类名称，首字母小写
+@Component(value = "userService") // 等于 <bean id="" class="" />
+public class UserService {
+    public void add() {
+        System.out.println("service add...");
+    }
+}
+```
+
+测试：
+
+```java
+@Test
+public void testService() {
+    ApplicationContext context = new ClassPathXmlApplicationContext("bean11.xml");
+    UserService userService = context.getBean("userService", UserService.class);
+    System.out.println(userService);
+    userService.add();
+}
+```
+
 
 
 
