@@ -1163,6 +1163,29 @@ public void testService() {
 
 
 
+4、开启组件扫描细节配置（bean11）
+
+```xml
+<!-- 示例1
+    use-default-filters="false" 表示现在不使用默认filter，而是使用自己配置的filter
+    context:include-filter 设置扫描指定的内容
+    以下的内容为，只扫描这个包下面带注解 @Controller 的类
+-->
+<context:component-scan base-package="com.richard.spring5_2" use-default-filters="false">
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+</context:component-scan>
+```
+
+```xml
+<!-- 示例2
+    context:exclude-filter：设置哪些类不要扫描
+    以下的内容为：扫描包下面除了注解@Controller以外的类
+ -->
+<context:component-scan base-package="com.richard.spring5_2">
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+</context:component-scan>
+```
+
 
 
 # 杂记
