@@ -1288,6 +1288,75 @@ public void testService1() {
 
 
 
+# AOP
+
+## 基本概念
+
+1、AOP
+
+（1）面向切面编程，利用AOP可以对业务逻辑的各个部分进行隔离（数据埋点），从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率
+
+（2）即为：不通过修改源代码的方式，在主干功能里面添加新功能
+
+
+
+## 底层原理
+
+1、AOP底层使用动态代理
+
+（1）有两种情况动态代理
+
+**第一种 有接口情况：使用JDK动态代理**
+
+接口：
+
+```java
+interface UserDao{
+    public void login();
+}
+```
+
+实现类：
+
+```java
+class UserDaoImpl implements UserDao {
+    public void login() {
+        // 登录实现过程
+    }
+}
+```
+
+JDK动态代理：
+
+创建UserDao接口实现类代理对象，从而完善实现类的方法
+
+
+
+**第二种 没有接口情况：使用CGLIB动态代理**
+
+```java
+class User {
+    public void add() {
+        ...
+    }
+}
+```
+
+```java
+class Person extends User {
+    public void add() {
+        super.add();
+        // 增强逻辑
+    }
+}
+```
+
+
+
+CGLIB动态代理
+
+创建当前类的子类的代理对象，从而完善类中的方法
+
 
 
 
