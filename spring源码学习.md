@@ -1260,6 +1260,38 @@ private String name;
 
 
 
+6、**<font color=red>完全注解开发</font>**
+
+（1）创建配置类，替代xml配置文件
+
+```java
+@Configuration // 作为配置类，替代xml配置文件
+@ComponentScan(basePackages = {"com.richard.spring5_2"})
+public class SpringConfig {
+}
+```
+
+（2）编写测试类
+
+```java
+@Test
+public void testService1() {
+    // 加载配置类
+    ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
+    UserService userService = context.getBean("userService", UserService.class);
+    System.out.println(userService);
+    userService.add();
+}
+```
+
+
+
+
+
+
+
+
+
 # 杂记
 
 1、 `Context` ：上下文

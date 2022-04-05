@@ -8,7 +8,7 @@
          扫描多个包:① 可以使用逗号隔开
                   ② 扫描包的上层目录（都在同一个包的情况下）
      -->
-    <context:component-scan base-package="com.richard.spring5_2"></context:component-scan>
+<!--    <context:component-scan base-package="com.richard.spring5_2"></context:component-scan>-->
 
     <!-- 示例1
         use-default-filters="false" 表示现在不使用默认filter，而是使用自己配置的filter
