@@ -1359,6 +1359,94 @@ CGLIB动态代理
 
 
 
+## JDK动态代理
+
+1、使用JDK动态代理，使用Proxy类里面的方法创建代理对象
+
+java.lang.Object
+
+​		|—java.lang.reflect.Proxy
+
+（1）newProxyInstance方法：返回指定接口的代理类的实例，该接口方法调用分派给指定的调用处理程序
+
+方法的三个参数：
+
+第一个参数：类加载器
+
+第二个参数：增加方法所在的类，这个类实现的接口，支持多个接口
+
+第三个参数：实现这个接口InvocationHandler，创建代理对象，写增强的方法
+
+
+
+2、JDK动态代理代码
+
+（1）创建接口，定义方法
+
+```java
+public interface UserDao {
+    public int add(int a, int b);
+    public String update(String id);
+}
+```
+
+（2）创建接口实现类，实现方法
+
+```java
+public class UserDaoImpl implements UserDao{
+    @Override
+    public int add(int a, int b) {
+        return a + b;
+    }
+    @Override
+    public String update(String id) {
+        return id;
+    }
+}
+```
+
+（3）使用Proxy类创建接口代理对象
+
+```java
+public class JDKProxy {
+    public static void main(String[] args) {
+        // 创建接口实现类的代理对象
+        Class[] interfaces = {UserDao.class};
+        UserDaoImpl userDao = new UserDaoImpl();
+        UserDao dao = (UserDao) Proxy.newProxyInstance(JDKProxy.class.getClassLoader(),interfaces, new UserDaoProxy(userDao));
+        int result = dao.add(1,2);
+        System.out.println(result);
+    }
+}
+// 创建代理对象代码
+class UserDaoProxy implements InvocationHandler {
+    // 1、将需要代理的对象传递进来
+    // 有参数构造传递
+    private Object obj;
+    public UserDaoProxy (Object obj) {
+        this.obj = obj;
+    }
+    // 需要新增逻辑的部分
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        // 方法之前的处理
+        System.out.println("方法之前执行" + method.getName() + "：传递的参数" + Arrays.toString(args));
+        // 被增强的方法的执行
+        Object res = method.invoke(obj,args);
+        // 方法之后的处理
+        System.out.println("方法之后执行" + obj);
+        return res;
+    }
+}
+```
+
+输出为：
+
+> 方法之前执行add：传递的参数[1, 2]
+> add方法执行了
+> 方法之后执行com.richard.spring5_3.UserDaoImpl@1716361
+> 3
+
 
 
 # 杂记
