@@ -1492,6 +1492,72 @@ class User {
 
 
 
+## 使用AOP前的准备工作
+
+1、Spring框架一般基于AspectJ实现AOP操作
+
+（1）AspectJ的概念
+
+①、AspectJ不是Spring组成部分，是一个独立AOP框架，一般把AspectJ和Spring框架一起使用，进行AOP操作
+
+
+
+2、基于AspectJ实现AOP操作
+
+（1）基于xml配置文件实现
+
+（2）基于注解方式实现（常用）
+
+
+
+3、在项目工程里引入AOP相关依赖
+
+`spring-aspects-5.2.6.RELEASE.jar`、`com.springsource.net.sf.cglib-2.2.0.jar`、`com.springsource.org.aopalliance-1.0.0.jar`、`com.springsource.org.aspectj.weaver-1.6.8.RELEASE.jar`、`spring-aop-5.2.6.RELEASE.jar`
+
+
+
+4、切入点表达式
+
+（1）切入点表达式作用：知道对哪个类里面的哪个方法进行增强
+
+（2）语法结构：
+
+```java
+execution([权限修饰符][返回类型][类全路径][方法名称]([参数列表]))
+```
+
+例子1：对 com.richard.dao.BookDao类里面的add方法进行增强
+
+```java
+execution(* com.richard.dao.BookDao.add(..))
+/*
+ * *表示任意修饰符
+ * 返回类型可以省略
+ * 类全路径：com.richard.dao.BookDao
+ * 方法名称：.add()
+ * 参数列表：【..】 表示方法中的参数
+ */
+```
+
+例子2：对 com.richard.dao.BookDao类里面的所有方法进行增强
+
+```java
+execution(* com.richard.dao.BookDao.*(..))
+/*
+ * com.richard.dao.BookDao.* 表示所有方法
+ */
+```
+
+例子2：对 com.richard.dao包里面的所有类，类里面的所有方法都进行增强
+
+```java
+execution(* com.richard.dao.*(..))
+```
+
+
+
+
+
 
 
 # 杂记
