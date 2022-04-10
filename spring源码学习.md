@@ -1551,8 +1551,162 @@ execution(* com.richard.dao.BookDao.*(..))
 例子2：对 com.richard.dao包里面的所有类，类里面的所有方法都进行增强
 
 ```java
-execution(* com.richard.dao.*(..))
+execution(* com.richard.dao.*.*(..))
 ```
+
+
+
+## AOP操作
+
+### AspectJ注解
+
+1、创建类，在类里面定义方法
+
+```java
+public class User {
+    public void add() {
+        System.out.println("add ...");
+    }
+}
+```
+
+
+
+2、创建增强类（编写增强逻辑）
+
+（1）在增强类里面，创建方法，让不同方法代表不同通知类型
+
+```java
+// 增强的类
+public class UserProxy {
+    // 前置通知
+    public void before() {
+        System.out.println("before ...");
+    }
+}
+```
+
+
+
+3、进行通知的配置
+
+（1）在Spring配置文件中，开启注解扫描（bean12）
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    
+    <!-- 开启注解扫描 -->
+    <context:component-scan base-package="com.richard.spring5_3.aopanno"></context:component-scan>
+
+</beans>
+```
+
+（2）使用注解创建 User 和 UserProxy 对象
+
+```java
+@Component
+public class User {}
+```
+
+```java
+@Component
+public class UserProxy {}
+```
+
+（3）在增强类上面添加注解@Aspect
+
+```java
+@Component
+@Aspect     // 生成代理对象
+public class UserProxy {}
+```
+
+（4）在spring配置文件中开启生成代理对象（bean12）
+
+```xml
+<!-- 开启Aspect生成代理对象 -->
+<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+```
+
+
+
+4、配置不同类型的通知
+
+（1）在增强类的里面，在作为通知方法的上方添加通知类型注解，使用切入点表达式进行配置
+
+```java
+// 增强的类
+@Component
+@Aspect     // 生成代理对象
+public class UserProxy {
+    // 前置通知
+    // @Before注解表示作为前置通知
+    @Before(value = "execution(* com.richard.spring5_3.aopanno.User.add(..))")
+    public void before() {
+        System.out.println("before ...");
+    }
+
+    // 后置通知（返回通知）
+    @AfterReturning(value = "execution(* com.richard.spring5_3.aopanno.User.add(..))")
+    public void afterReturning() {
+        System.out.println("afterReturning ...");
+    }
+
+    // 最终通知
+    @After(value = "execution(* com.richard.spring5_3.aopanno.User.add(..))")
+    public void after() {
+        System.out.println("after ...");
+    }
+
+    @AfterThrowing(value = "execution(* com.richard.spring5_3.aopanno.User.add(..))")
+    public void afterThrowing() {
+        System.out.println("afterThrowing ...");
+    }
+
+    @Around(value = "execution(* com.richard.spring5_3.aopanno.User.add(..))")
+    public void around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        System.out.println("环绕之前 ...");
+
+        // 陪增强的方法的执行
+        proceedingJoinPoint.proceed();
+
+        System.out.println("环绕之后 ...");
+    }
+}
+```
+
+（2）测试
+
+```java
+@Test
+public void testAopAnno() {
+    ApplicationContext context = new ClassPathXmlApplicationContext("bean12.xml");
+    User user = context.getBean("user", User.class);
+    user.add();
+}
+```
+
+输出结果：
+
+> 环绕之前 ...
+> before ...
+> add ...
+> 环绕之后 ...
+> after ...
+> afterReturning ...
+
+
+
+
+
+### AspectJ配置文件
 
 
 
