@@ -1704,6 +1704,47 @@ public void testAopAnno() {
 
 
 
+5、公共切入点抽取
+
+```java
+// 相同切入点抽取
+@Pointcut(value = "execution(* com.richard.spring5_3.aopanno.User.add(..))")
+public void pointDemo() {
+
+}
+
+// 前置通知
+// @Before注解表示作为前置通知
+@Before(value = "pointDemo()")
+public void before() {
+    System.out.println("before ...");
+}
+```
+
+
+
+6、存在多个增强类对同一个方法进行增强，设置增强类优先级
+
+（1）在增强类上面添加注解 `@Order(数字类型值)`， 数字类型值越小优先级越高
+
+```java
+@Component
+@Aspect
+@Order(1)
+public class PersonProxy {}
+```
+
+```java
+@Component
+@Aspect     
+@Order(2)
+public class UserProxy {}
+```
+
+结果：
+
+> PersonProxy 先执行
+
 
 
 ### AspectJ配置文件
