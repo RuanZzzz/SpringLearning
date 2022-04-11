@@ -1747,9 +1747,78 @@ public class UserProxy {}
 
 
 
+7、完全使用注解开发
+
+（1）创建配置类，不需要创建xml配置文件
+
+```java
+@Configuration
+@ComponentScan(basePackages = {"com.richard"})
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+public class ConfigAop {
+}
+```
+
+
+
 ### AspectJ配置文件
 
+1、创建两个类，增强类和被增强类，创建方法
 
+```java
+public class Book {
+    public void buy() {
+        System.out.println("buy ...");
+    }
+}
+```
+
+```java
+public class BookProxy {
+    public void before() {
+        System.out.println("before ...");
+    }
+}
+```
+
+2、在spring配置文件中创建两个类对象（bean13）
+
+```xml
+<!-- 创建对象 -->
+<bean id="book" class="com.richard.spring5_3.aopxml.Book"></bean>
+<bean id="bookProxy" class="com.richard.spring5_3.aopxml.BookProxy"></bean>
+```
+
+3、在spring配置文件中配置切入点（bean13）
+
+```xml
+<!-- 配置aop增强 -->
+<aop:config>
+    <!-- 切入点 -->
+    <aop:pointcut id="p" expression="execution(* com.richard.spring5_3.aopxml.Book.buy(..))"/>
+    <!-- 配置切面 -->
+    <aop:aspect ref="bookProxy">
+        <!-- 增强作用在具体的方法上 -->
+        <aop:before method="before" pointcut-ref="p" />
+    </aop:aspect>
+</aop:config>
+```
+
+测试：
+
+```java
+@Test
+public void testAopXml() {
+    ApplicationContext context = new ClassPathXmlApplicationContext("bean13.xml");
+    Book book = context.getBean("book", Book.class);
+    book.buy();
+}
+```
+
+输出为：
+
+> before ...
+> buy ...
 
 
 
